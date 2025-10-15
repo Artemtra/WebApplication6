@@ -5,12 +5,12 @@ using WebApplication1.DB;
 
 namespace WebApplication6.cqrs.Student
 {
-    public class InfoStudentGroupNull : IRequest<IEnumerable<StudentDTO>>
+    public class ListStudentGroupNull : IRequest<IEnumerable<StudentDTO>>
     {
      
         public int IndexGroup3 { get; set; }
         public class ListStudentByGroupIndexCommandHandler :
-            IRequestHandler<InfoStudentGroupNull, IEnumerable<StudentDTO>>
+            IRequestHandler<ListStudentGroupNull, IEnumerable<StudentDTO>>
         {
 
             private readonly Db131025Context db;
@@ -18,7 +18,7 @@ namespace WebApplication6.cqrs.Student
             {
                 this.db = db;
             }
-            public async Task<IEnumerable<StudentDTO>> HandleAsync(InfoStudentGroupNull request,
+            public async Task<IEnumerable<StudentDTO>> HandleAsync(ListStudentGroupNull request,
                 CancellationToken ct = default)
             {
 

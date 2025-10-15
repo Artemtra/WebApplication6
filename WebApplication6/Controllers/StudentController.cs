@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using MyMediator.Types;
 using WebApplication1.DB;
+using WebApplication6.cqrs;
+using WebApplication6.cqrs.Group;
+
+
 //using WebApplication6.cqrs.Material;
 using WebApplication6.cqrs.Student;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
@@ -40,7 +44,15 @@ namespace WebApplication6.Controllers
         [HttpGet("InfoStudentGroupNull")]
         public async Task<ActionResult<IEnumerable<StudentDTO>>> InfoStudentGroupNull(int GroupNull)
         {
-            var command = new InfoStudentGroupNull { IndexGroup3 = GroupNull };
+            var command = new ListStudentGroupNull { IndexGroup3 = GroupNull };
+            var result = await mediator.SendAsync(command);
+
+            return Ok(result);
+        }
+        [HttpGet("InfoGroupNoStudent")]
+        public async Task<ActionResult<IEnumerable<StudentDTO>>> InfoGroupNoStudent(int NoStudent)
+        {
+            var command = new ListGroupNoStudent { IndexGroup4 = NoStudent };
             var result = await mediator.SendAsync(command);
 
             return Ok(result);
