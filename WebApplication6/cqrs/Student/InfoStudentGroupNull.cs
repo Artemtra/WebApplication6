@@ -2,13 +2,15 @@
 using MyMediator.Interfaces;
 using WebApplication1.DB;
 
+
 namespace WebApplication6.cqrs.Student
 {
-    public class ListStudentByGroupIndexCommand : IRequest<IEnumerable<StudentDTO>>
-        {
-        public int IndexGroup1 { get; set; }
+    public class InfoStudentGroupNull : IRequest<IEnumerable<StudentDTO>>
+    {
+     
+        public int IndexGroup3 { get; set; }
         public class ListStudentByGroupIndexCommandHandler :
-            IRequestHandler<ListStudentByGroupIndexCommand, IEnumerable<StudentDTO>>
+            IRequestHandler<InfoStudentGroupNull, IEnumerable<StudentDTO>>
         {
 
             private readonly Db131025Context db;
@@ -16,11 +18,11 @@ namespace WebApplication6.cqrs.Student
             {
                 this.db = db;
             }
-            public async Task<IEnumerable<StudentDTO>> HandleAsync(ListStudentByGroupIndexCommand request,
+            public async Task<IEnumerable<StudentDTO>> HandleAsync(InfoStudentGroupNull request,
                 CancellationToken ct = default)
             {
 
-                return await db.Students.Where(s => s.Id == request.IndexGroup1).Select(s =>
+                return await db.Students.Where(s => s.IdGroup == null).Select(s =>
                 new StudentDTO
                 {
                     Id = s.Id,
@@ -32,10 +34,12 @@ namespace WebApplication6.cqrs.Student
 
                     Gender = s.Gender,
 
-                    IdGroup =s.IdGroup,
-        }).ToListAsync();
+                    IdGroup = s.IdGroup,
+                }).ToListAsync();
             }
 
         }
     }
 }
+
+
