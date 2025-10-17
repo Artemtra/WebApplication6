@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using MyMediator.Types;
 using WebApplication1.DB;
 using WebApplication6.cqrs;
 using WebApplication6.cqrs.Group;
+using WebApplication6.cqrs.Group.Add;
+
 
 
 //using WebApplication6.cqrs.Material;
@@ -13,10 +16,11 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace WebApplication6.Controllers
 {
-    [Route("api[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class StudentController : ControllerBase
     {
+        
         private readonly Mediator mediator;
         public StudentController(Mediator mediator)
         {
@@ -50,12 +54,40 @@ namespace WebApplication6.Controllers
             return Ok(result);
         }
         [HttpGet("InfoGroupNoStudent")]
-        public async Task<ActionResult<IEnumerable<StudentDTO>>> InfoGroupNoStudent(int NoStudent)
+        public async Task<ActionResult<IEnumerable<GroupDTO>>> InfoGroupNoStudent(int NoStudent)
         {
             var command = new ListGroupNoStudent { IndexGroup4 = NoStudent };
             var result = await mediator.SendAsync(command);
 
             return Ok(result);
+        }
+        [HttpPost("AddGroup")]
+        public async Task<ActionResult> AddGroupp(GroupDTO group)
+        {
+            if (group == null)
+            {
+                return BadRequest();
+            }
+            if (string.IsNullOrEmpty(group.Title))
+            {
+                return BadRequest("необходимо ввести название");
+            }
+            if (group.IdSpecial == null)
+            {
+                return BadRequest("необходимо ввести специальность");
+            }
+            try
+            {
+                var command = new AddGroup { Group = group };
+                await mediator.SendAsync(command);
+
+
+                return Ok();
+            }
+            catch
+            {
+                return StatusCode(404);
+            }
         }
 
     }
