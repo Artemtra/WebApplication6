@@ -13,7 +13,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace WebApplication6.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api[controller]")]
     [ApiController]
     public class StudentController : ControllerBase
     {
